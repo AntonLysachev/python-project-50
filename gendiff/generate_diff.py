@@ -11,6 +11,7 @@ def parsing_files(data1, data2):
     data = {}
     only_one = data1.keys() - data2.keys()
     only_tow = data2.keys() - data1.keys()
+    common = data1.keys() & data2.keys()
     for key in only_one:
         data.update({key: {'prefix': '-'}})
         data[key].update({'name': key})
@@ -19,19 +20,18 @@ def parsing_files(data1, data2):
         data.update({key: {'prefix': '+'}})
         data[key].update({'name': key})
         data[key].update({'data':  data2[key]})
-    for key, value in data1.items():
-        if data2.get(key):
-            if value == data2[key]:
-                data.update({key: {'prefix': ' '}})
-                data[key].update({'name': key})
-                data[key].update({'data':  data1[key]})
-            else:
-                data.update({f'{key}1': {'prefix': '-'}})
-                data[f'{key}1'].update({'name': key})
-                data[f'{key}1'].update({'data':  data1[key]})
-                data.update({f'{key}2': {'prefix': '+'}})
-                data[f'{key}2'].update({'name': key})
-                data[f'{key}2'].update({'data':  data2[key]})
+    for key in common:
+        if data1[key] == data2[key]:
+            data.update({key: {'prefix': ' '}})
+            data[key].update({'name': key})
+            data[key].update({'data':  data1[key]})
+        else:
+            data.update({f'{key}1': {'prefix': '-'}})
+            data[f'{key}1'].update({'name': key})
+            data[f'{key}1'].update({'data':  data1[key]})
+            data.update({f'{key}2': {'prefix': '+'}})
+            data[f'{key}2'].update({'name': key})
+            data[f'{key}2'].update({'data':  data2[key]})
     
     return dict(sorted(data.items()))
 
@@ -43,8 +43,6 @@ def format(compare_data):
     return f'{{\n{out}}}'
 
 
-    
-
 def generate_diff(file1, file2):
     data_file1 = get_data(file1)
     data_file2 = get_data(file2)
@@ -53,4 +51,4 @@ def generate_diff(file1, file2):
     return out
 
 
-# print(generate_diff('Test/file1.json', 'Test/file2.json'))
+print(generate_diff('Test/file1.json', 'Test/file2.json'))
