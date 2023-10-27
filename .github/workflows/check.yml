@@ -1,4 +1,4 @@
-name: autu-tests
+name: auto-tests
 on: push
 jobs:
   tests:
