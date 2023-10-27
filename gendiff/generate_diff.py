@@ -32,12 +32,11 @@ def parsing_files(data1, data2):
             data.update({f'{key}2': {'prefix': '+'}})
             data[f'{key}2'].update({'name': key})
             data[f'{key}2'].update({'data':  data2[key]})
-    
     return dict(sorted(data.items()))
 
 
 def format(compare_data):
-    out= ''
+    out = ''
     for value in compare_data.values():
         out = f'{out} {value["prefix"]} {value["name"]}: {value["data"]}\n'
     return f'{{\n{out}}}'
@@ -47,8 +46,6 @@ def generate_diff(file1, file2):
     data_file1 = get_data(file1)
     data_file2 = get_data(file2)
     pars = parsing_files(data_file1, data_file2)
-    out = format(pars)           
+    out = format(pars)
     return out
-
-
-print(generate_diff('Test/file1.json', 'Test/file2.json'))
+# print(generate_diff('Test/file1.json', 'Test/file2.json'))
