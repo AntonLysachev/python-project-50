@@ -9,6 +9,6 @@ jobs:
         with:
             python-version: "3.9.13"
       - run: pip install -r req.txt
-      - run: github/super-linter@v3
-      - run: flake8 gendiff
+      - run: pytest
+      - uses: github/super-linter@v3
 
