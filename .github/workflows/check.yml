@@ -10,5 +10,6 @@ jobs:
             python-version: "3.9.13"
       - run: pip install -r req.txt
       - run: pytest
+      - run: poetry add --group dev flake8
       - run: poetry run flake8 gendiff
 
