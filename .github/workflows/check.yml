@@ -9,7 +9,8 @@ jobs:
         with:
             python-version: "3.9.13"
       - run: pip install -r requirements.txt
-      - run: flake8 gendiff
       - run: pytest
+      - run: flake8 gendiff
+      
       
 
