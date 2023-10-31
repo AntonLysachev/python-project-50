@@ -10,5 +10,5 @@ jobs:
             python-version: "3.9.13"
       - run: pip install -r requirements.txt
       - run: pytest
-      - run: poetry run flake8 gendiff 
+      - run: make lint
 
