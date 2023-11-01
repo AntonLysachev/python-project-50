@@ -1,4 +1,5 @@
 import json
+import copy
 
 
 def get_data(file):
@@ -7,45 +8,48 @@ def get_data(file):
     return data
 
 
-def parsing_files(data1, data2):
-    data = {}
-    only_one = data1.keys() - data2.keys()
-    only_tow = data2.keys() - data1.keys()
-    common = data1.keys() & data2.keys()
-    for key in only_one:
-        data.update({key: {'prefix': '-'}})
-        data[key].update({'name': key})
-        data[key].update({'data': data1[key]})
-    for key in only_tow:
-        data.update({key: {'prefix': '+'}})
-        data[key].update({'name': key})
-        data[key].update({'data': data2[key]})
-    for key in common:
-        if data1[key] == data2[key]:
-            data.update({key: {'prefix': ' '}})
-            data[key].update({'name': key})
-            data[key].update({'data': data1[key]})
+def ref_keys(data1, data2):
+    merg_data = {}
+    merg_data.update(data1)
+    merg_data.update(data2)
+
+    def for_ref(data, ref={}):
+        copy_data = copy.deepcopy(data)
+        for key, value in copy_data.items():
+            ref.update({key: None})
+            if isinstance(value, dict):
+                ref.update({key: value})
+                ref[key].update(for_ref(value, ref={}))
+        return ref
+    return dict(sorted(merg_data.items()))
+
+
+def format(ref_file, file, merg_keys, tab='', out=''):
+    for key, value in merg_keys.items():
+        if key in ref_file:
+            if key in file:
+                if isinstance(value, dict):
+                    out = f"{out}   {key}: "
+                    tab_in = f'{tab}{" "*len(out)}'
+                    deep_data = format(ref_file.get(key, {}),
+                                       file.get(key, {}), value, tab_in, out='')
+                    out = f"{out}{deep_data}\n"
+                else:
+                    if ref_file[key] == file[key]:
+                        out = f'{out} {tab}  {key}: {ref_file[key]}\n'
+                    else:
+                        out = f'{out}{tab} - {key}: {ref_file[key]}\n'
+                        out = f'{out}{tab} + {key}: {file[key]}\n'
+            else:
+                out = f'{out}{tab} - {key}: {ref_file[key]}\n'
         else:
-            data.update({f'{key}1': {'prefix': '-'}})
-            data[f'{key}1'].update({'name': key})
-            data[f'{key}1'].update({'data': data1[key]})
-            data.update({f'{key}2': {'prefix': '+'}})
-            data[f'{key}2'].update({'name': key})
-            data[f'{key}2'].update({'data': data2[key]})
-    return dict(sorted(data.items()))
-
-
-def format(compare_data):
-    out = ''
-    for value in compare_data.values():
-        out = f'{out} {value["prefix"]} {value["name"]}: {value["data"]}\n'
-    return f'{{\n{out}}}'
+            out = f'{out}{tab} + {key}: {file[key]}\n'
+    return f'{{\n{out}{tab}}}'
 
 
 def generate_diff(file1, file2):
     data_file1 = get_data(file1)
     data_file2 = get_data(file2)
-    pars = parsing_files(data_file1, data_file2)
-    out = format(pars)
+    merg_keys = ref_keys(data_file1, data_file2)
+    out = format(data_file1, data_file2, merg_keys)
     return out
-# print(generate_diff('Test/file1.json', 'Test/file2.json'))
