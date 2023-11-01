@@ -9,9 +9,9 @@ jobs:
         with:
             python-version: "3.9.13"
       - run: pip install -r requirements.txt
-      - run: pytest
-      - run: flake8 gendiff
       - run: pip install poetry
+      - run: make pytest
+      - run: make lint
       - name: Test & publish code coverage
         uses: paambaati/codeclimate-action@v5.0.0
         if: github.ref_name == 'main'
