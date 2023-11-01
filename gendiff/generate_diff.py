@@ -15,23 +15,23 @@ def parsing_files(data1, data2):
     for key in only_one:
         data.update({key: {'prefix': '-'}})
         data[key].update({'name': key})
-        data[key].update({'data':  data1[key]})
+        data[key].update({'data': data1[key]})
     for key in only_tow:
         data.update({key: {'prefix': '+'}})
         data[key].update({'name': key})
-        data[key].update({'data':  data2[key]})
+        data[key].update({'data': data2[key]})
     for key in common:
         if data1[key] == data2[key]:
             data.update({key: {'prefix': ' '}})
             data[key].update({'name': key})
-            data[key].update({'data':  data1[key]})
+            data[key].update({'data': data1[key]})
         else:
             data.update({f'{key}1': {'prefix': '-'}})
             data[f'{key}1'].update({'name': key})
-            data[f'{key}1'].update({'data':  data1[key]})
+            data[f'{key}1'].update({'data': data1[key]})
             data.update({f'{key}2': {'prefix': '+'}})
-            data[f'{key}2'].update({'name': key})
-            data[f'{key}2'].update({'data':  data2[key]})
+            data[f'{key}2'].update({'name': key})   
+            data[f'{key}2'].update({'data': data2[key]})
     return dict(sorted(data.items()))
 
 
