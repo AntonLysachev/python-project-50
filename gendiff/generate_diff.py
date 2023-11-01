@@ -30,7 +30,7 @@ def parsing_files(data1, data2):
             data[f'{key}1'].update({'name': key})
             data[f'{key}1'].update({'data': data1[key]})
             data.update({f'{key}2': {'prefix': '+'}})
-            data[f'{key}2'].update({'name': key})   
+            data[f'{key}2'].update({'name': key})
             data[f'{key}2'].update({'data': data2[key]})
     return dict(sorted(data.items()))
 
