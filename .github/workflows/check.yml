@@ -10,7 +10,7 @@ jobs:
             python-version: "3.9.13"
       - run: pip install -r requirements.txt
       - run: pip install poetry
-      - run: pip install pytest-cov
+      - run: make install
       - run: make pytest
       - run: make lint
       - name: Test & publish code coverage
@@ -21,8 +21,3 @@ jobs:
         with:
           coverageCommand: make test-coverage
           debug: true
-        
-
-      
-      
-
