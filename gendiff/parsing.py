@@ -13,6 +13,7 @@ def parsing(file1, file2):
     date_file2 = get_data(file2)
     merg = copy.deepcopy(date_file1)
     merg.update(date_file2)
+
     def pars(merg_date, date1, date2):
         parsing = {}
         for key, value in merg_date.items():
@@ -26,7 +27,7 @@ def parsing(file1, file2):
                 parsing.update({f'{key}1': f'- {key}: {date1[key]}',
                                 f'{key}2': f'+ {key}: {date2[key]}'})
                 continue
-            else: 
+            else:
                 if key in date1:
                     parsing.update({key: f'- {key}: {date1[key]}'})
                     continue
