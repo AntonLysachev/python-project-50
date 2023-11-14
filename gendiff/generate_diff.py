@@ -14,15 +14,54 @@ def get_data(file):
             return yaml.full_load(f)
 
 
+def print_dict(node, space, deep, out=''):
+    space = '  ' * deep
+    for key, value in node.items():
+        if isinstance(value, dict):
+            out = f'{out}{space}{key}: '
+            out = f'{out}{print_dict(value, space, deep + 2)}\n'
+        else:
+            out = f'{out}{space}{key}: {value}\n'
+    return f'{{\n{out}{space}}}'
+
+
 def styler(parsing_file):
-    def style(parsing_file, space='', out=''):
+    def style(parsing_file, deep=1, out=''):
+        space = '  ' * deep
+        down_space = '  ' * (deep - 1)
         for key, value in parsing_file.items():
-            if isinstance(value, dict):
-                out = f'{out}    {space}{key}:'
-                out = f'{out} {style(value, "    ")}\n'
+            if value.get('children'):
+                out = f'{out}{space}{key}:'
+                out = f'{out} {style(value["children"], deep + 1)}\n'
+                continue
+            if value['value1'] == value['value2']:
+                out = f'{out}{space}  {key}: {value["value1"]}\n'
+            elif value['value2'] == None:
+                if isinstance(value['value1'], dict):
+                    out = f'{out}{space}- {key}: '
+                    out = f'{out}{print_dict(value["value1"], space, deep + 3)}\n'
+                else:
+                    out = f'{out}{space}- {key}: {value["value1"]}\n'
+            elif value['value1'] == None:
+                if isinstance(value['value2'], dict):
+                    out = f'{out}{space}+ {key}: '
+                    out = f'{out}{print_dict(value["value2"], space, deep + 3)}\n'
+                else:    
+                    out = f'{out}{space}+ {key}: {value["value2"]}\n'
             else:
-                out = f'{out}  {space}{value}\n'
-        return f'{{\n{out}{space}}}'
+                if isinstance(value['value1'], dict):
+                    out = f'{out}{space}- {key}: '
+                    out = f'{out}{print_dict(value["value1"], space, deep + 3)}\n'
+                    out = f'{out}{space}+ {key}: {value["value2"]}\n'
+                    continue
+                if isinstance(value['value2'], dict):
+                    out = f'{out}{space}+ {key}: '
+                    out = f'{out}{print_dict(value["value2"], space, deep + 3)}\n'
+                    out = f'{out}{space}- {key}: {value["value1"]}\n'
+                    continue
+                out = f'{out}{space}- {key}: {value["value1"]}\n'
+                out = f'{out}{space}+ {key}: {value["value2"]}\n'
+        return f'{{\n{out}{down_space}}}'
     out = style(parsing_file)
     return out
 
