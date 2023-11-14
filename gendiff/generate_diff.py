@@ -16,13 +16,14 @@ def get_data(file):
 
 def print_dict(node, space, deep, out=''):
     space = '  ' * deep
+    down_space = '  ' * (deep - 2)
     for key, value in node.items():
         if isinstance(value, dict):
             out = f'{out}{space}{key}: '
             out = f'{out}{print_dict(value, space, deep + 2)}\n'
         else:
             out = f'{out}{space}{key}: {value}\n'
-    return f'{{\n{out}{space}}}'
+    return f'{{\n{out}{down_space}}}'
 
 
 def styler(parsing_file):
