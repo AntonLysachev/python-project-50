@@ -13,27 +13,20 @@ def print_dict(node, space, deep, out=''):
 def print_value(key, value, space, deep):
     value1 = value['value1']
     value2 = value['value2']
+    out = ''
     if value1 == value2:
         return f'{space}  {key}: {value1}\n'
-    if value2 == 'empty':
+    if value1 != value2 and value1 != 'empty':
         if isinstance(value1, dict):
-            return f'{space}- {key}: {print_dict(value1, space, deep)}\n'
-        return f'{space}- {key}: {value1}\n'
-    if value1 == 'empty':
+            out = f'{space}- {key}: {print_dict(value1, space, deep)}\n'
+        else:
+            out = f'{space}- {key}: {value1}\n'
+    if value2 != 'empty':
         if isinstance(value2, dict):
-            return f'{space}+ {key}: {print_dict(value2, space, deep)}\n'
-        return f'{space}+ {key}: {value2}\n'
-    if isinstance(value1, dict):
-        out = f'{space}- {key}: '
-        out = f'{out}{print_dict(value1, space, deep)}\n'
-        out = f'{out}{space}+ {key}: {value2}\n'
-        return out
-    if isinstance(value2, dict):
-        out = f'{space}+ {key}: '
-        out = f'{out}{print_dict(value2, space, deep)}\n'
-        out = f'{out}{space}- {key}: {value2}\n'
-        return out
-    return f'{space}- {key}: {value1} \n{space}+ {key}: {value2}\n'
+            out = f'{out}{space}+ {key}: {print_dict(value2, space, deep)}\n'
+        else:
+            out = f'{out}{space}+ {key}: {value2}\n'
+    return out
 
 
 def stylish(parsing_file):
@@ -44,8 +37,8 @@ def stylish(parsing_file):
             if value.get('children'):
                 out = f'{out}{space}  {key}:'
                 out = f'{out} {styler(value["children"], deep + 2)}\n'
-                continue
-            out = f'{out}{print_value(key, value, space, deep + 3)}'
+            else:
+                out = f'{out}{print_value(key, value, space, deep + 3)}'
         return f'{{\n{out}{down_space}}}'
     out = styler(parsing_file)
     return out

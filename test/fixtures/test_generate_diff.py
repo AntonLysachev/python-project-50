@@ -73,8 +73,13 @@ def test_generate_diff_empty_tow_file_yaml_json():
     
 
 def test_generate_diff_unknown_format():
-    assert generate_diff('test/fixtures/file_yaml1.yml',
-                         'test/fixtures/file_yaml2.txt') == 'Unknown format'
+    assert generate_diff('test/fixtures/file_json1.json',
+                         'test/fixtures/file_json.txt') == 'Unknown format'
+
+
+def test_generate_diff_unknown_format():
+    assert generate_diff('test/fixtures/file_yaml.txt',
+                         'test/fixtures/file_yaml1.yml') == 'Unknown format'
     
 
 def test_generate_diff_tree():
