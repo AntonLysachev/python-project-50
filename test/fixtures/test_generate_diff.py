@@ -11,6 +11,7 @@ answer2 = get_answer('test/fixtures/answer/test_generate_diff_empty_files.txt')
 answer3 = get_answer('test/fixtures/answer/test_generate_diff_empty_one_file.txt')
 answer4 = get_answer('test/fixtures/answer/test_generate_diff_empty_tow_file.txt')
 answer5 = get_answer('test/fixtures/answer/test_generate_diff_tree.txt')
+answer6 = get_answer('test/fixtures/answer/test_generate_diff_plain.txt')
 
 
 def test_generate_diff():
@@ -76,6 +77,12 @@ def test_generate_diff_empty_tow_file_yaml_json():
 def test_generate_diff_tree():
     assert generate_diff('test/fixtures/file_json5.json', 
                          'test/fixtures/file_json6.json') == answer5
+
+
+def test_generate_diff_plain():
+    assert generate_diff('test/fixtures/file_json5.json', 
+                         'test/fixtures/file_json6.json',
+                         'plain') == answer6
 
 
 def test_generate_diff_unknown_format():

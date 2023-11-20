@@ -29,16 +29,13 @@ def print_value(key, value, space, deep):
     return out
 
 
-def stylish(parsing_file):
-    def styler(parsing_file, deep=1, out=''):
-        space = '  ' * deep
-        down_space = '  ' * (deep - 1)
-        for key, value in parsing_file.items():
-            if value.get('children'):
-                out = f'{out}{space}  {key}:'
-                out = f'{out} {styler(value["children"], deep + 2)}\n'
-            else:
-                out = f'{out}{print_value(key, value, space, deep + 3)}'
-        return f'{{\n{out}{down_space}}}'
-    out = styler(parsing_file)
-    return out
+def stylish(parsing_file, deep=1, out=''):
+    space = '  ' * deep
+    down_space = '  ' * (deep - 1)
+    for key, value in parsing_file.items():
+        if value.get('children'):
+            out = f'{out}{space}  {key}:'
+            out = f'{out} {stylish(value["children"], deep + 2)}\n'
+        else:
+            out = f'{out}{print_value(key, value, space, deep + 3)}'
+    return f'{{\n{out}{down_space}}}'

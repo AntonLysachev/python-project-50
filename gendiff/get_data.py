@@ -13,7 +13,7 @@ def define(file):
             return False
 
 
-def get_date(file):
+def get_data(file):
     format = define(file)
     if format == 'json':
         with open(file, "r") as f:
