@@ -1,0 +1,18 @@
+{
+  "follow": {
+    "type": "added",
+    "value": "false"
+  },
+  "host": {
+    "type": "added",
+    "value": "hexlet.io"
+  },
+  "proxy": {
+    "type": "added",
+    "value": "123.234.53.22"
+  },
+  "timeout": {
+    "type": "added",
+    "value": 50
+  }
+}

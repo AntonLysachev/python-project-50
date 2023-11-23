@@ -1,7 +1,7 @@
 def complex_value(value):
     if isinstance(value, dict):
         return '[complex value]'
-    if value in ['null', 'false', 'true',  'empty']:
+    if value in ['null', 'false', 'true', 'empty']:
         return value
     return f"'{value}'"
 
@@ -25,7 +25,7 @@ def plain(parsing_file, path=[], out=''):
             out = f'{out}{plain(value["children"], path)}'
         else:
             print = print_volue(path, value)
-            if print != None:
+            if print is not None:
                 out = f'{out}Property {print}\n'
         path.pop()
     return out
