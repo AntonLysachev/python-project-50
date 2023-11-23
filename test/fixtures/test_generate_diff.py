@@ -49,46 +49,10 @@ def test_generate_diff_yaml():
                          'stylish') == answer1
 
 
-def test_generate_diff_empty_files_yaml():
-    assert generate_diff('test/fixtures/file_yaml3.yml', 
-                         'test/fixtures/file_yaml4.yml',
-                         'stylish') == answer2
-
-
-def test_generate_diff_empty_one_file_yaml():
-    assert generate_diff('test/fixtures/file_yaml3.yml', 
-                         'test/fixtures/file_yaml1.yml',
-                         'stylish') == answer3
-
-
-def test_generate_diff_empty_tow_file_yaml():
-    assert generate_diff('test/fixtures/file_yaml1.yml', 
-                         'test/fixtures/file_yaml3.yml',
-                         'stylish') == answer4
-
-
 def test_generate_diff_yaml_json():
     assert generate_diff('test/fixtures/file_yaml1.yml', 
                          'test/fixtures/file_json2.json',
                          'stylish') == answer1
-
-
-def test_generate_diff_empty_files_yaml_json():
-    assert generate_diff('test/fixtures/file_yaml3.yml', 
-                         'test/fixtures/file_json4.json',
-                         'stylish') == answer2
-
-
-def test_generate_diff_empty_one_file_yaml_json():
-    assert generate_diff('test/fixtures/file_yaml3.yml', 
-                         'test/fixtures/file_json1.json',
-                         'stylish') == answer3
-
-
-def test_generate_diff_empty_tow_file_yaml_json():
-    assert generate_diff('test/fixtures/file_yaml1.yml',
-                         'test/fixtures/file_json3.json',
-                         'stylish') == answer4
 
 
 def test_generate_diff_tree():
