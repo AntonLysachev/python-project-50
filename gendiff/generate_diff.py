@@ -18,6 +18,7 @@ def choice_format(format_name, parsing_file):
 
 def flatten(tree):
     result = []
+
     def walk(subtree):
         for item in subtree:
             if isinstance(item, list):

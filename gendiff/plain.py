@@ -21,14 +21,14 @@ def print_volue(path, value):
 
 
 def plain(parsing_file, path=[]):
-    out =[]
+    out = []
     for key, value in parsing_file.items():
         path.append(key)
         if value.get('children'):
             out.append(plain(value["children"], path))
         else:
             print = print_volue(path, value)
-            if print != None:
+            if print is not None:
                 out.append(f'Property {print}')
         path.pop()
     return out
