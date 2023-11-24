@@ -3,6 +3,8 @@ def complex_value(value):
         return '[complex value]'
     if value in ['null', 'false', 'true', 'empty']:
         return value
+    if isinstance(value, int):
+        return value
     return f"'{value}'"
 
 
