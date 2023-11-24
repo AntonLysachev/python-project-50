@@ -16,9 +16,7 @@ STYLISH
 [![asciicast](https://asciinema.org/a/l4VWO5qrUXpCBWOjH1z4Ujn4C.svg)](https://asciinema.org/a/l4VWO5qrUXpCBWOjH1z4Ujn4C)
 
 PLAIN
-
 [![asciicast](https://asciinema.org/a/wj9Cn9rpx2brkvd4zyUmPzBdz.svg)](https://asciinema.org/a/wj9Cn9rpx2brkvd4zyUmPzBdz)
 
 JSON
-
 [![asciicast](https://asciinema.org/a/nhWU48k7XfI2V7XqCF7yiPBpK.svg)](https://asciinema.org/a/nhWU48k7XfI2V7XqCF7yiPBpK)
