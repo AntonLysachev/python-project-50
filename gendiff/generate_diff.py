@@ -9,11 +9,23 @@ import json
 def choice_format(format_name, parsing_file):
     match format_name:
         case 'plain':
-            return plain(parsing_file)
+            return '\n'.join(flatten(plain(parsing_file)))
         case 'stylish':
             return stylish(parsing_file)
         case 'json':
             return json.dumps(json_format(parsing_file), indent=2)
+
+
+def flatten(tree):
+    result = []
+    def walk(subtree):
+        for item in subtree:
+            if isinstance(item, list):
+                walk(item)
+            else:
+                result.append(item)
+    walk(tree)
+    return result
 
 
 def generate_diff(file1, file2, format_name='stylish'):

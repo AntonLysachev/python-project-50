@@ -20,14 +20,15 @@ def print_volue(path, value):
         return f"'{print_path}' was updated. From {value1} to {value2}"
 
 
-def plain(parsing_file, path=[], out=''):
+def plain(parsing_file, path=[]):
+    out =[]
     for key, value in parsing_file.items():
         path.append(key)
         if value.get('children'):
-            out = f'{out}{plain(value["children"], path)}'
+            out.append(plain(value["children"], path))
         else:
             print = print_volue(path, value)
-            if print is not None:
-                out = f'{out}Property {print}\n'
+            if print != None:
+                out.append(f'Property {print}')
         path.pop()
     return out
