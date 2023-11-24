@@ -16,7 +16,7 @@ def choice_format(format_name, parsing_file):
             return json.dumps(json_format(parsing_file), indent=2)
 
 
-def generate_diff(file1, file2, format_name):
+def generate_diff(file1, file2, format_name='stylish'):
     data1 = get_data(file1)
     data2 = get_data(file2)
     match data2, data1:
