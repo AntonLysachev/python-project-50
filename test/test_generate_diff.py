@@ -1,6 +1,7 @@
 from gendiff.generate_diff import generate_diff
 import pytest
 
+
 def get_answer(file):
     with open(file, 'r') as f:
         data = f.read()
@@ -19,9 +20,10 @@ answer9 = get_answer('test/fixtures/answer/json/test_generate_diff_empty_one_fil
 answer10 = get_answer('test/fixtures/answer/json/test_generate_diff_empty_tow_file.txt')
 answer11 = get_answer('test/fixtures/answer/json/test_generate_diff_tree.txt')
 
+
 @pytest.mark.parametrize("file_path1,file_path2,style,expected", [
-    ('test/fixtures/file_json1.json', 
-     'test/fixtures/file_json2.json', 
+    ('test/fixtures/file_json1.json',
+     'test/fixtures/file_json2.json',
      'stylish', answer1),
     ('test/fixtures/file_yaml1.yml',
      'test/fixtures/file_yaml2.yml',
@@ -37,7 +39,7 @@ answer11 = get_answer('test/fixtures/answer/json/test_generate_diff_tree.txt')
      'stylish', answer3),
     ('test/fixtures/file_json1.json',
      'test/fixtures/file_json3.json',
-     'stylish', answer4 ),
+     'stylish', answer4),
     ('test/fixtures/file_json5.json',
      'test/fixtures/file_json6.json',
      'stylish', answer5),
