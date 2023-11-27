@@ -1,0 +1,1 @@
+('test/fixtures/file_json1.json', 'test/fixtures/file_json2.json', 'stylish', answer1)
