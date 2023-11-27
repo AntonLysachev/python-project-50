@@ -3,6 +3,11 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/ca4fa1e9ca61c4d3b73c/test_coverage)](https://codeclimate.com/github/AntonLysachev/python-project-50/test_coverage)
 
 
+Description
+
+Compares two configuration files and shows a difference.
+
+
 -------------------------------------------------------------DEMO-------------------------------------------------------------
 
 
