@@ -2,7 +2,6 @@ from gendiff.parsing import parsing
 from gendiff.formatters.get_data import get_data
 from gendiff.formatters.stylish import stylish
 from gendiff.formatters.plain import plain
-from gendiff.formatters.json_format import json_format
 import json
 
 
