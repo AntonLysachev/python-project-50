@@ -19,18 +19,18 @@ def print_volue_plain(path, value):
     if type_value == 'removed':
         return f"'{print_path}' was removed"
     if type_value == 'updated':
-        return f"'{print_path}' was updated. From {old_value} to {new_value}"    
+        return f"'{print_path}' was updated. From {old_value} to {new_value}"
 
 
 def plain(parsing_file, path=[]):
-    out =[]
+    out = []
     for key, value in parsing_file.items():
         path.append(key)
         if value.get('children'):
             out.append(plain(value["children"], path))
         else:
             print = print_volue_plain(path, value)
-            if print != None:
+            if print is not None:
                 out.append(f'Property {print}')
         path.pop()
     return out

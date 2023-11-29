@@ -1,10 +1,10 @@
-def print_nest(node, space, deep, out=''):
+def nest(node, space, deep, out=''):
     space = '  ' * deep
     down_space = '  ' * (deep - 2)
     if isinstance(node, dict):
         for key, value in node.items():
             out = f'{out}{space}{key}: '
-            out = f'{out}{print_nest(value["value"], space, deep + 2)}\n'
+            out = f'{out}{nest(value["value"], space, deep + 2)}\n'
         return f'{{\n{out}{down_space}}}'
     return node
 
@@ -14,12 +14,12 @@ def print_value(key, value, space, deep):
     if type_value == 'not updated':
         return f'{space}  {key}: {value["value"]}\n'
     if type_value == 'removed':
-        return f'{space}- {key}: {print_nest(value["value"], space, deep)}\n'
+        return f'{space}- {key}: {nest(value["value"], space, deep)}\n'
     if type_value == 'added':
-        return f'{space}+ {key}: {print_nest(value["value"], space, deep)}\n'
+        return f'{space}+ {key}: {nest(value["value"], space, deep)}\n'
     if type_value == 'updated':
-        out = f'{space}- {key}: {print_nest(value["old_value"], space, deep)}\n'
-        out = f'{out}{space}+ {key}: {print_nest(value["new_value"], space, deep)}\n'
+        out = f'{space}- {key}: {nest(value["old_value"], space, deep)}\n'
+        out = f'{out}{space}+ {key}: {nest(value["new_value"], space, deep)}\n'
         return out
 
 

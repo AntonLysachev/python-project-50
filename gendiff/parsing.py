@@ -39,7 +39,6 @@ def add_data(value1, value2):
     return data
 
 
-
 def parsing(date1, date2):
     analyzed = {}
     for key, value in date1.items():
@@ -48,7 +47,7 @@ def parsing(date1, date2):
         analyzed.update({key: {}})
         if isinstance(value1, dict):
             if isinstance(value2, dict):
-                analyzed[key].update({'children': 
+                analyzed[key].update({'children':
                                       parsing(date1[key], date2[key])})
             else:
                 analyzed[key].update(add_data(value1, value2))
