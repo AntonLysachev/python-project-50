@@ -12,7 +12,7 @@ def choice_format(format_name, parsing_file):
         case 'stylish':
             return stylish(parsing_file)
         case 'json':
-            return json.dumps(json_format(parsing_file), indent=2)
+            return json.dumps(parsing_file, indent=2)
 
 
 def flatten(tree):
