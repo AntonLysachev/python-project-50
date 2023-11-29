@@ -1,11 +1,11 @@
-def nest(node, space, deep, out=''):
+def nest(node, space, deep, report=''):
     space = '  ' * deep
     down_space = '  ' * (deep - 2)
     if isinstance(node, dict):
         for key, value in node.items():
-            out = f'{out}{space}{key}: '
-            out = f'{out}{nest(value["value"], space, deep + 2)}\n'
-        return f'{{\n{out}{down_space}}}'
+            report = f'{report}{space}{key}: '
+            report = f'{report}{nest(value["value"], space, deep + 2)}\n'
+        return f'{{\n{report}{down_space}}}'
     return node
 
 
@@ -18,18 +18,20 @@ def print_value(key, value, space, deep):
     if type_value == 'added':
         return f'{space}+ {key}: {nest(value["value"], space, deep)}\n'
     if type_value == 'updated':
-        out = f'{space}- {key}: {nest(value["old_value"], space, deep)}\n'
-        out = f'{out}{space}+ {key}: {nest(value["new_value"], space, deep)}\n'
-        return out
+        old_value = value["old_value"]
+        new_value = value["new_value"]
+        report = f'{space}- {key}: {nest(old_value, space, deep)}\n'
+        report = f'{report}{space}+ {key}: {nest(new_value, space, deep)}\n'
+        return report
 
 
-def stylish(parsing_file, deep=1, out=''):
+def stylish(parsing_file, deep=1, report=''):
     space = '  ' * deep
     down_space = '  ' * (deep - 1)
     for key, value in parsing_file.items():
         if value.get('children'):
-            out = f'{out}{space}  {key}:'
-            out = f'{out} {stylish(value["children"], deep + 2)}\n'
+            report = f'{report}{space}  {key}:'
+            report = f'{report} {stylish(value["children"], deep + 2)}\n'
         else:
-            out = f'{out}{print_value(key, value, space, deep + 3)}'
-    return f'{{\n{out}{down_space}}}'
+            report = f'{report}{print_value(key, value, space, deep + 3)}'
+    return f'{{\n{report}{down_space}}}'

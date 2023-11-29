@@ -8,7 +8,7 @@ def complex_value(value):
     return f"'{value}'"
 
 
-def print_volue_plain(path, value):
+def print_volue(path, value):
     old_value = complex_value(value.get('old_value'))
     new_value = complex_value(value.get('new_value'))
     value_in = complex_value(value.get('value'))
@@ -23,14 +23,14 @@ def print_volue_plain(path, value):
 
 
 def plain(parsing_file, path=[]):
-    out = []
+    report = []
     for key, value in parsing_file.items():
         path.append(key)
         if value.get('children'):
-            out.append(plain(value["children"], path))
+            report.append(plain(value["children"], path))
         else:
-            print = print_volue_plain(path, value)
+            print = print_volue(path, value)
             if print is not None:
-                out.append(f'Property {print}')
+                report.append(f'Property {print}')
         path.pop()
-    return out
+    return report
