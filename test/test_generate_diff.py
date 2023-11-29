@@ -39,8 +39,7 @@ def get_answer(posrfix):
      'json', '_tree_json.txt'),
     ('test/fixtures/file_json.txt',
      'test/fixtures/file_yaml.txt',
-     'stylish', '_Unknown_format.txt'),
-    ])
+     'stylish', '_Unknown_format.txt'),])
 def test_generate_diff(file_path1, file_path2, style, posrfix):
     answer = get_answer(posrfix)
     assert generate_diff(file_path1, file_path2, style) == answer
