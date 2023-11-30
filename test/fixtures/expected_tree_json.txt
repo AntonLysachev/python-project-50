@@ -3,7 +3,7 @@
     "children": {
       "follow": {
         "type": "added",
-        "value": "false"
+        "value": false
       },
       "setting1": {
         "type": "not updated",
@@ -15,8 +15,8 @@
       },
       "setting3": {
         "type": "updated",
-        "old_value": "true",
-        "new_value": "null"
+        "old_value": true,
+        "new_value": null
       },
       "setting4": {
         "type": "added",

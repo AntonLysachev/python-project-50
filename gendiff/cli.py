@@ -13,5 +13,4 @@ def get_arguments():
                         type=str,
                         metavar='[type]',
                         help='output format (default: "stylish")')
-    args = parser.parse_args()
-    return (args.filepath1, args.filepath2, args.format)
+    return parser.parse_args()

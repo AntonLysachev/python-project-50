@@ -1,10 +1,10 @@
 from gendiff.cli import get_arguments
-from gendiff.generate_diff import generate_diff
+from gendiff.generator import generate_diff
 
 
 def main():
-    file1_path, file2_path, style = get_arguments()
-    print(generate_diff(file1_path, file2_path, style))
+    args = get_arguments()
+    print(generate_diff(args.filepath1, args.filepath2, args.format))
 
 
 if __name__ == '__main__':

@@ -1,45 +1,51 @@
-from gendiff.generate_diff import generate_diff
+from gendiff.generator import generate_diff
 import pytest
 
 
-def get_answer(posrfix):
-    addres = f'test/fixtures/answer/test_generate_diff{posrfix}'
+def get_answer(file_name):
+    addres = f'test/fixtures/expected{file_name}'
     with open(addres, 'r') as f:
         data = f.read()
     return data
 
 
-@pytest.mark.parametrize("file_path1,file_path2,style,posrfix", [
-    ('test/fixtures/file_json1.json',
-     'test/fixtures/file_json2.json',
+def get_addres(file_path):
+    return f'test/fixtures/file_{file_path}'
+
+
+@pytest.mark.parametrize("file_path1,file_path2,style,file_name", [
+    ('json1.json',
+     'json2.json',
      'stylish', '.txt'),
-    ('test/fixtures/file_yaml1.yml',
-     'test/fixtures/file_yaml2.yml',
+    ('yaml1.yml',
+     'yaml2.yml',
      'stylish', '.txt'),
-    ('test/fixtures/file_yaml1.yml',
-     'test/fixtures/file_json2.json',
+    ('yaml1.yml',
+     'json2.json',
      'stylish', '.txt'),
-    ('test/fixtures/file_json3.json',
-     'test/fixtures/file_json4.json',
+    ('json3.json',
+     'json4.json',
      'stylish', '_empty_files.txt'),
-    ('test/fixtures/file_json3.json',
-     'test/fixtures/file_json1.json',
+    ('json3.json',
+     'json1.json',
      'stylish', '_empty_one_file.txt'),
-    ('test/fixtures/file_json1.json',
-     'test/fixtures/file_json3.json',
+    ('json1.json',
+     'json3.json',
      'stylish', '_empty_tow_file.txt'),
-    ('test/fixtures/file_json5.json',
-     'test/fixtures/file_json6.json',
+    ('json5.json',
+     'json6.json',
      'stylish', '_tree.txt'),
-    ('test/fixtures/file_json5.json',
-     'test/fixtures/file_json6.json',
+    ('json5.json',
+     'json6.json',
      'plain', '_plain.txt'),
-    ('test/fixtures/file_json5.json',
-     'test/fixtures/file_json6.json',
+    ('json5.json',
+     'json6.json',
      'json', '_tree_json.txt'),
-    ('test/fixtures/file_json.txt',
-     'test/fixtures/file_yaml.txt',
+    ('json.txt',
+     'yaml.txt',
      'stylish', '_Unknown_format.txt'),])
-def test_generate_diff(file_path1, file_path2, style, posrfix):
-    answer = get_answer(posrfix)
-    assert generate_diff(file_path1, file_path2, style) == answer
+def test_generate_diff(file_path1, file_path2, style, file_name):
+    answer = get_answer(file_name)
+    path1 = get_addres(file_path1)
+    path2 = get_addres(file_path2)
+    assert generate_diff(path1, path2, style) == answer

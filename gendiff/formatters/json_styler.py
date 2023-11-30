@@ -1,0 +1,10 @@
+def to_json_style(value):
+    match value:
+        case None:
+            return 'null'
+        case False:
+            return 'false'
+        case True:
+            return 'true'
+        case _:
+            return value
