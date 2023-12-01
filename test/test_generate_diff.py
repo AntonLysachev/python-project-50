@@ -17,7 +17,7 @@ def get_content(file_name):
         data = f.read()
     return data
 
- 
+
 @pytest.mark.parametrize("file_path1,file_path2,style,file_name", [
     ('file_json1.json',
      'file_json2.json',
