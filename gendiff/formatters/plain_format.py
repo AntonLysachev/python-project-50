@@ -1,14 +1,17 @@
-from gendiff.formatters.json_styler import to_json_style
-
-
 def write_value(value):
     if isinstance(value, dict):
         return '[complex value]'
-    if value in ['null', 'false', 'true']:
-        return value
-    if isinstance(value, int):
-        return value
-    return f"'{value}'"
+    match value:
+        case None:
+            return 'null'
+        case False:
+            return 'false'
+        case True:
+            return 'true'
+        case _:
+            if isinstance(value, int):
+                return value
+            return f"'{value}'"
 
 
 def flatten(tree):
@@ -25,9 +28,9 @@ def flatten(tree):
 
 
 def print_volue(path, value):
-    old_value = write_value(to_json_style(value.get('old_value')))
-    new_value = write_value(to_json_style(value.get('new_value')))
-    value_to_write = write_value(to_json_style(value.get('value')))
+    old_value = write_value(value.get('old_value'))
+    new_value = write_value(value.get('new_value'))
+    value_to_write = write_value(value.get('value'))
     type_value = value['type']
     print_path = '.'.join(path)
     if type_value == 'added':
@@ -38,7 +41,7 @@ def print_volue(path, value):
         return f"'{print_path}' was updated. From {old_value} to {new_value}"
 
 
-def print_plain(parsing_file):
+def form_plain(parsing_file):
     def form(parsing_file, path=[]):
         report = []
         for key, value in parsing_file.items():

@@ -1,6 +1,6 @@
-from gendiff.parsing import analyze
+from gendiff.comparison import analyze
 from gendiff.file_reader import get_data
-from gendiff.formatters.switch import select_format
+from gendiff.formatters.switch import apply_format
 
 
 def generate_diff(file1, file2, format_name='stylish'):
@@ -13,4 +13,4 @@ def generate_diff(file1, file2, format_name='stylish'):
             return "Unknown format"
         case _:
             parsing_file = analyze(data1, data2)
-            return select_format(format_name, parsing_file)
+            return apply_format(format_name, parsing_file)

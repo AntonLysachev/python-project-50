@@ -1,4 +1,13 @@
-from gendiff.formatters.json_styler import to_json_style
+def to_json_style(value):
+    match value:
+        case None:
+            return 'null'
+        case False:
+            return 'false'
+        case True:
+            return 'true'
+        case _:
+            return value
 
 
 def add_nest(node, space, deep, report=''):
@@ -30,13 +39,13 @@ def print_value(key, value, space, deep):
         return f'{space}+ {key}: {add_nest(value_in, space, deep)}\n'
 
 
-def print_tree(parsing_file, deep=1, report=''):
+def form_tree(parsing_file, deep=1, report=''):
     space = '  ' * deep
     down_space = '  ' * (deep - 1)
     for key, value in parsing_file.items():
         if value.get('children'):
             report = f'{report}{space}  {key}:'
-            report = f'{report} {print_tree(value["children"], deep + 2)}\n'
+            report = f'{report} {form_tree(value["children"], deep + 2)}\n'
         else:
             report = f'{report}{print_value(key, value, space, deep + 3)}'
     return f'{{\n{report}{down_space}}}'
