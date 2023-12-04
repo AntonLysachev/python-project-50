@@ -12,4 +12,4 @@ def apply_format(format_name, parsing_file):
         case 'json':
             return form_json(parsing_file)
         case _:
-            return 'Invalid format entered'
+            raise Exception('Invalid format entered')

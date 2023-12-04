@@ -1,23 +1,14 @@
 import json
 import yaml
+import os
 
 
-def define(file):
-    format = file.split('.')
-    match format:
-        case _, 'yaml' | 'yml':
-            return 'yml'
-        case _, 'json':
-            return 'json'
-        case _:
-            return False
-
-
-def get_data(file):
-    format = define(file)
-    if format == 'json':
-        with open(file, "r") as f:
+def get_data(addres):
+    _, extension = os.path.splitext(addres)
+    if extension == '.json':
+        with open(addres, "r") as f:
             return json.load(f)
-    if format == 'yml':
-        with open(file, "r") as f:
+    if extension in ('.yml', '.yaml'):
+        with open(addres, "r") as f:
             return yaml.full_load(f)
+    raise Exception('Unknown extension')

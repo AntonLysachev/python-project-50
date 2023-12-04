@@ -1,4 +1,4 @@
-def write_value(value):
+def to_str(value):
     if isinstance(value, dict):
         return '[complex value]'
     match value:
@@ -28,9 +28,9 @@ def flatten(tree):
 
 
 def print_volue(path, value):
-    old_value = write_value(value.get('old_value'))
-    new_value = write_value(value.get('new_value'))
-    value_to_write = write_value(value.get('value'))
+    old_value = to_str(value.get('old_value'))
+    new_value = to_str(value.get('new_value'))
+    value_to_write = to_str(value.get('value'))
     type_value = value['type']
     print_path = '.'.join(path)
     if type_value == 'added':

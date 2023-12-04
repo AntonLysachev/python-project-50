@@ -1,5 +1,6 @@
 {
   "common": {
+    "type": "nested",
     "children": {
       "follow": {
         "type": "added",
@@ -25,15 +26,14 @@
       "setting5": {
         "type": "added",
         "value": {
-          "key5": {
-            "type": "nested",
-            "value": "value5"
-          }
+          "key5": "value5"
         }
       },
       "setting6": {
+        "type": "nested",
         "children": {
           "doge": {
+            "type": "nested",
             "children": {
               "wow": {
                 "type": "updated",
@@ -55,6 +55,7 @@
     }
   },
   "group1": {
+    "type": "nested",
     "children": {
       "baz": {
         "type": "updated",
@@ -68,10 +69,7 @@
       "nest": {
         "type": "updated",
         "old_value": {
-          "key": {
-            "type": "nested",
-            "value": "value"
-          }
+          "key": "value"
         },
         "new_value": "str"
       }
@@ -80,18 +78,9 @@
   "group2": {
     "type": "removed",
     "value": {
-      "abc": {
-        "type": "nested",
-        "value": 12345
-      },
+      "abc": 12345,
       "deep": {
-        "type": "nested",
-        "value": {
-          "id": {
-            "type": "nested",
-            "value": 45
-          }
-        }
+        "id": 45
       }
     }
   },
@@ -99,23 +88,11 @@
     "type": "added",
     "value": {
       "deep": {
-        "type": "nested",
-        "value": {
-          "id": {
-            "type": "nested",
-            "value": {
-              "number": {
-                "type": "nested",
-                "value": 45
-              }
-            }
-          }
+        "id": {
+          "number": 45
         }
       },
-      "fee": {
-        "type": "nested",
-        "value": 100500
-      }
+      "fee": 100500
     }
   }
 }
