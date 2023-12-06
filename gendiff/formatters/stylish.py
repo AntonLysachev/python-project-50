@@ -1,4 +1,13 @@
-def to_json_style(value):  # не понимаю как тут использовать isinstance
+def to_str(value, space, deep):
+    lines = ['{']
+    space = '  ' * deep
+    down_space = '  ' * (deep - 2)
+    if isinstance(value, dict):
+        for key, value in value.items():
+            line = f'{space}{key}: {to_str(value, space, deep + 2)}'
+            lines.append(line)
+        lines.append(f'{down_space}{"}"}')
+        return '\n'.join(flatten(lines))
     match value:
         case None:
             return 'null'
@@ -10,45 +19,47 @@ def to_json_style(value):  # не понимаю как тут использо�
             return value
 
 
-# функция add_nest не переводит в строку, а создает древовидую структуру
-# не понимаю зачем их объеденять они занимаются разным
-def form_nest(value, space, deep, report=''):
-    space = '  ' * deep
-    down_space = '  ' * (deep - 2)
-    if isinstance(value, dict):
-        for key, value in value.items():
-            value_in = to_json_style(value)
-            report = f'{report}{space}{key}: '
-            report = f'{report}{form_nest(value_in, space, deep + 2)}\n'
-        return f'{{\n{report}{down_space}}}'
-    return value
+def flatten(tree):
+    result = []
+
+    def walk(subtree):
+        for item in subtree:
+            if isinstance(item, list):
+                walk(item)
+            else:
+                result.append(item)
+    walk(tree)
+    return result
 
 
-def form_value(key, value, space, deep):
-    type_value = value['type']
-    if type_value == 'updated':
-        old = to_json_style(value["old_value"])
-        new = to_json_style(value["new_value"])
-        report = f'{space}- {key}: {form_nest(old, space, deep)}\n'
-        report = f'{report}{space}+ {key}: {form_nest(new, space, deep)}\n'
-        return report
-    value_in = to_json_style(value['value'])
-    if type_value == 'not updated':
-        return f'{space}  {key}: {value_in}\n'
-    if type_value == 'removed':
-        return f'{space}- {key}: {form_nest(value_in, space, deep)}\n'
-    if type_value == 'added':
-        return f'{space}+ {key}: {form_nest(value_in, space, deep)}\n'
+def build_line(key, value, space, deep):
+    lines = []
+    current_type = value['type']
+    if current_type == 'updated':
+        old_value = value["old_value"]
+        new_value = value["new_value"]
+        lines.append(f'{space}- {key}: {to_str(old_value, space, deep)}')
+        lines.append(f'{space}+ {key}: {to_str(new_value, space, deep)}')
+        return lines
+    value_in = value['value']
+    if current_type == 'not updated':
+        return f'{space}  {key}: {value_in}'
+    if current_type == 'removed':
+        return f'{space}- {key}: {to_str(value_in, space, deep)}'
+    if current_type == 'added':
+        return f'{space}+ {key}: {to_str(value_in, space, deep)}'
 
 
-def form_tree(parsing_file, deep=1, report=''):
+def form_tree(parsing_file, deep=1):
+    lines = ['{']
     space = '  ' * deep
     down_space = '  ' * (deep - 1)
     for key, value in parsing_file.items():
-        type_value = value['type']
-        if type_value == 'nested':
-            report = f'{report}{space}  {key}:'
-            report = f'{report} {form_tree(value["children"], deep + 2)}\n'
+        current_type = value['type']
+        if current_type == 'nested':
+            child = value["children"]
+            lines.append(f'{space}  {key}: {form_tree(child, deep + 2)}')
         else:
-            report = f'{report}{form_value(key, value, space, deep + 3)}'
-    return f'{{\n{report}{down_space}}}'
+            lines.append(build_line(key, value, space, deep + 3))
+    lines.append(f'{down_space}{"}"}')
+    return '\n'.join(flatten(lines))

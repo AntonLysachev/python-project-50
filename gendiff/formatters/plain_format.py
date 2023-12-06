@@ -31,20 +31,20 @@ def print_volue(path, value):
     old_value = to_str(value.get('old_value'))
     new_value = to_str(value.get('new_value'))
     value_to_write = to_str(value.get('value'))
-    type_value = value['type']
+    current_type = value['type']
     print_path = '.'.join(path)
-    if type_value == 'added':
+    if current_type == 'added':
         return f"'{print_path}' was added with value: {value_to_write}"
-    if type_value == 'removed':
+    if current_type == 'removed':
         return f"'{print_path}' was removed"
-    if type_value == 'updated':
+    if current_type == 'updated':
         return f"'{print_path}' was updated. From {old_value} to {new_value}"
 
 
-def form_plain(parsing_file):
-    def form(parsing_file, path=[]):
+def form_plain(dict_diff):
+    def form(dict_diff, path=[]):
         report = []
-        for key, value in parsing_file.items():
+        for key, value in dict_diff.items():
             path.append(key)
             if value.get('children'):
                 report.append(form(value["children"], path))
@@ -54,4 +54,4 @@ def form_plain(parsing_file):
                     report.append(f'Property {print}')
             path.pop()
         return report
-    return '\n'.join(flatten(form(parsing_file)))
+    return '\n'.join(flatten(form(dict_diff)))
