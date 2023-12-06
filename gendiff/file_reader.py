@@ -2,6 +2,7 @@ import json
 import yaml
 import os
 
+
 # Для чего нам разделять на 2 функции
 # почему не оставить все в одной
 def parse(content, format):

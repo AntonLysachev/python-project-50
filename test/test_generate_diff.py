@@ -83,10 +83,10 @@ def test_generate_diff(file_path1, file_path2, style, file_name):
      'file_yaml.txt',
      'stylish',
      'expected_Unknown_extension.txt')])
-def test_generate_diff_exeption(file_path1, file_path2, style,file_name):
+def test_generate_diff_exeption(file_path1, file_path2, style, file_name):
     path1 = build_fixture_path(file_path1)
     path2 = build_fixture_path(file_path2)
     answer = get_content(file_name)
     with pytest.raises(Exception) as exception:
-            generate_diff(path1, path2, style)
+        generate_diff(path1, path2, style)
     assert str(exception.value) == answer
