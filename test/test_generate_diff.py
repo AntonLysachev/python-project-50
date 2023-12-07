@@ -12,7 +12,7 @@ def build_fixture_path(file_name):
 
 
 def get_content(file_name):
-    addres = build_fixture_path(file_name)
+    addres = build_fixture_path(file_name)# В прошлой итерации вы мне сказали сделать через build_fixture_path
     with open(addres, 'r') as f:
         data = f.read()
         return data
@@ -74,19 +74,20 @@ def test_generate_diff(file_path1, file_path2, style, file_name):
     assert generate_diff(path1, path2, style) == answer
 
 
-@pytest.mark.parametrize("file_path1,file_path2,style,file_name", [
+@pytest.mark.parametrize("file_path1,file_path2,style,exception, exc_message", [
     ('file_json1.json',
      'file_json2.json',
      'stylis',
-     'expected_Invalid_format_entered.txt'),
+     ValueError,
+     "Unknown extension"),
     ('file_json.txt',
      'file_yaml.txt',
      'stylish',
-     'expected_Unknown_extension.txt')])
-def test_generate_diff_exeption(file_path1, file_path2, style, file_name):
+     ValueError,
+     "Invalid format entered")])
+def test_generate_diff_exeption(file_path1, file_path2, style, exception, exc_message):
     path1 = build_fixture_path(file_path1)
     path2 = build_fixture_path(file_path2)
-    answer = get_content(file_name)
-    with pytest.raises(Exception) as exception:
+    with pytest.raises(exception) as exception:
         generate_diff(path1, path2, style)
-    assert str(exception.value) == answer
+        assert exc_message == exception.value

@@ -12,4 +12,4 @@ def apply_format(format_name, dict_diff):
         case 'json':
             return form_json(dict_diff)
         case _:
-            raise Exception('Invalid format entered')
+            raise ValueError('Invalid format entered')

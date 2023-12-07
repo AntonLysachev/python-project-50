@@ -16,42 +16,44 @@ def to_str(value):
 
 def flatten(tree):
     result = []
-
-    def walk(subtree):
-        for item in subtree:
-            if isinstance(item, list):
-                walk(item)
-            else:
-                result.append(item)
-    walk(tree)
+    for item in tree:
+        if item is None:
+            continue
+        if isinstance(item, list):
+            result.extend(flatten(item))
+        else:
+            result.append(item)
     return result
 
 
-def print_volue(path, value):
-    old_value = to_str(value.get('old_value'))
-    new_value = to_str(value.get('new_value'))
-    value_to_write = to_str(value.get('value'))
+def build_line(path, value):
     current_type = value['type']
     print_path = '.'.join(path)
-    if current_type == 'added':
-        return f"'{print_path}' was added with value: {value_to_write}"
-    if current_type == 'removed':
-        return f"'{print_path}' was removed"
-    if current_type == 'updated':
-        return f"'{print_path}' was updated. From {old_value} to {new_value}"
+    match current_type:
+        case 'added':
+            line = to_str(value.get('value'))
+            return f"Property '{print_path}' was added with value: {line}"
+        case 'removed':
+            return f"Property '{print_path}' was removed"
+        case 'updated':
+            old = to_str(value.get('old_value'))
+            new = to_str(value.get('new_value'))
+            return f"Property '{print_path}' was updated. From {old} to {new}"
+        case 'nested':
+            child = value["children"]
+            lines = []
+            for key, value in child.items():
+                path.append(key)
+                lines.append(build_line(path, value))
+                path.pop()
+            return '\n'.join(flatten(lines))
 
 
 def form_plain(dict_diff):
-    def form(dict_diff, path=[]):
-        report = []
-        for key, value in dict_diff.items():
-            path.append(key)
-            if value.get('children'):
-                report.append(form(value["children"], path))
-            else:
-                print = print_volue(path, value)
-                if print is not None:
-                    report.append(f'Property {print}')
-            path.pop()
-        return report
-    return '\n'.join(flatten(form(dict_diff)))
+    report = []
+    path = []
+    for key, value in dict_diff.items():
+        path.append(key)
+        report.append(build_line(path, value))
+        path.pop()
+    return '\n'.join(flatten(report))
