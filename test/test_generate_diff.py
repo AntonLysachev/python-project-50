@@ -12,7 +12,7 @@ def build_fixture_path(file_name):
 
 
 def get_content(file_name):
-    addres = build_fixture_path(file_name)# В прошлой итерации вы мне сказали сделать через build_fixture_path
+    addres = build_fixture_path(file_name)  # В прошлой итерации вы мне сказали сделать через build_fixture_path
     with open(addres, 'r') as f:
         data = f.read()
         return data
