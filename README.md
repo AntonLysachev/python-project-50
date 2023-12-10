@@ -7,6 +7,10 @@ Description
 
 Compares two configuration files and shows a difference.
 
+Difference making styles: Plain, Stylish, Json
+To select a style use the -f. Example: gendiff -f 'plain' 'file_path1' 'file_path2'
+To call for help use -h
+
 
 -------------------------------------------------------------DEMO-------------------------------------------------------------
 

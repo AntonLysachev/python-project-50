@@ -1,17 +1,17 @@
 def to_str(value):
     if isinstance(value, dict):
         return '[complex value]'
-    match value:
-        case None:
-            return 'null'
-        case False:
-            return 'false'
-        case True:
-            return 'true'
-        case _:
-            if isinstance(value, int):
-                return value
-            return f"'{value}'"
+    if isinstance(value, bool):
+        match value:
+            case False:
+                return 'false'
+            case True:
+                return 'true'
+    if isinstance(value, int):
+        return value
+    if value is None:
+        return 'null'
+    return f"'{value}'"
 
 
 def flatten(tree):
@@ -26,9 +26,8 @@ def flatten(tree):
     return result
 
 
-def build_line(path, value):
+def build_line(print_path, value):
     current_type = value['type']
-    print_path = '.'.join(path)
     match current_type:
         case 'added':
             line = to_str(value.get('value'))
@@ -43,17 +42,16 @@ def build_line(path, value):
             child = value["children"]
             lines = []
             for key, value in child.items():
-                path.append(key)
-                lines.append(build_line(path, value))
-                path.pop()
+                lines.append(build_line(f"{print_path}.{key}", value))
             return '\n'.join(flatten(lines))
 
 
 def form_plain(dict_diff):
-    report = []
+    lines = []
     path = []
     for key, value in dict_diff.items():
         path.append(key)
-        report.append(build_line(path, value))
+        print_path = '.'.join(path)
+        lines.append(build_line(print_path, value))
         path.pop()
-    return '\n'.join(flatten(report))
+    return '\n'.join(flatten(lines))

@@ -11,8 +11,7 @@ def build_fixture_path(file_name):
     return os.path.join(FIXTURES_PATH, file_name)
 
 
-def get_content(file_name):
-    addres = build_fixture_path(file_name)  # В прошлой итерации вы мне сказали сделать через build_fixture_path
+def get_content(addres):
     with open(addres, 'r') as f:
         data = f.read()
         return data
@@ -68,9 +67,9 @@ def get_content(file_name):
      'json',
      'expected_tree_json.txt')])
 def test_generate_diff(file_path1, file_path2, style, file_name):
+    answer = get_content(build_fixture_path(file_name))
     path1 = build_fixture_path(file_path1)
     path2 = build_fixture_path(file_path2)
-    answer = get_content(file_name)
     assert generate_diff(path1, path2, style) == answer
 
 
